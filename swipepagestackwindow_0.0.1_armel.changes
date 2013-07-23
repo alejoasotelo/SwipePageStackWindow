@@ -1,0 +1,23 @@
+Format: 1.8
+Date: Mon, 22 Jul 2013 20:02:39 +0000
+Source: swipepagestackwindow
+Binary: swipepagestackwindow
+Architecture: armel
+Version: 0.0.1
+Distribution: unstable
+Urgency: low
+Maintainer: unknown <>
+Changed-By: unknown <>
+Description: 
+ swipepagestackwindow - Es un PageStackWindow en QML y Qt para Meego Harmattan.
+Changes: 
+ swipepagestackwindow (0.0.1) unstable; urgency=low
+ .
+   * Initial Release.
+Checksums-Sha1: 
+ 79902f19b348b1a5fcd5365273a49fc20bb0be97 27866 swipepagestackwindow_0.0.1_armel.deb
+Checksums-Sha256: 
+ b2e1206a2f8960458904d19185eb2ee001ddbeee86cf59c612e6449de1fc366e 27866 swipepagestackwindow_0.0.1_armel.deb
+Files: 
+ 8e4e45323362466d81adb2d9057c9699 27866 user/other optional swipepagestackwindow_0.0.1_armel.deb
+Maemo-Display-Name: SwipePageStackWindow
