@@ -5,5 +5,6 @@ Es un PageStackWindow personalizado en QML y Qt para Meego Harmattan (Nokia N9) 
 
 La idea de este proyecto es compartirlo para que los programadores puedan incluir estas funcionalidades en sus Apps.
 
-Site: http://www.alejosotelo.com.ar/
-Twitter: @alejoasotelo
+Site: http://www.alejosotelo.com.ar
+
+Twitter: http://www.twitter.com/alejoasotelo
