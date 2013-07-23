@@ -19,11 +19,23 @@ Page {
         source: "image://theme/meegotouch-view-header-fixed" + (theme.inverted ? "-inverted" : "")
         z: 1
 
+        ListButton{
+            id: btnBack
+            style: ListButtonStyle {buttonHeight: 37}
+            anchors{
+                left: parent.left
+                verticalCenter: parent.verticalCenter
+                leftMargin: 16
+            }
+            text: qsTr("back")
+            onClicked: pageStack.pop();
+        }
+
         Label {
             id: header
             anchors {
                 verticalCenter: parent.verticalCenter
-                left: parent.left
+                left: btnBack.right
                 leftMargin: 16
             }
             platformStyle: LabelStyle {
@@ -58,11 +70,22 @@ Page {
             console.debug("rightSwipe");
             pageStack.pop();
         }
+        onClicked:{
+            if(type === "home")
+                pageStack.pop();
+            else if(type === "about")
+                aboutDialog.open();
+        }
     }
 
     Component.onCompleted: {
         var i =0;
         for(i = 0; i < 20; i++)
             listModel.append({title: "title " + i, subtitle: "subtitle " + i});
+
+
+        appWindow.menuModel.clear();
+        appWindow.menuModel.append({title: "Home", type:"home"});
+        appWindow.menuModel.append({title: "About", type:"about"});
     }
 }

@@ -60,9 +60,24 @@ Page {
         flickableItem: listView
     }
 
+    Connections{
+        target: page.status === PageStatus.Active ? appWindow : null // Por si se agrega otro Item al pageStack
+        ignoreUnknownSignals: true
+        onClicked:{
+            if(type === "about")
+                aboutDialog.open();
+            else if(type === "test")
+                appWindow.pageStack.push(Qt.resolvedUrl("Test.qml"), {title: "Test"});
+        }
+    }
+
     Component.onCompleted: {
         var i =0;
         for(i = 0; i < 20; i++)
-            listModel.append({title: "title " + i, subtitle: "subtitle " + i});
+            listModel.append({title: "Title " + i, subtitle: "Subtitle " + i});
+
+        appWindow.menuModel.clear();
+        appWindow.menuModel.append({title: "Test", type:"test"});
+        appWindow.menuModel.append({title: "About", type:"about"});
     }
 }

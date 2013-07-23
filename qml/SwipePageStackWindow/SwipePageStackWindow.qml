@@ -6,15 +6,17 @@ Window {
 
     function showMenu()
     {
-        console.debug("BBPageStackWindow.showMenu();");
+        console.debug("SwipePageStackWindow.showMenu();");
         window.isShowMenu = true;
     }
 
     function hideMenu()
     {
-        console.debug("BBPageStackWindow.hideMenu();");
+        console.debug("SwipePageStackWindow.hideMenu();");
         window.isShowMenu = false;
     }
+
+    signal clicked(string title, int index, string type)
 
     signal upSwipe
     signal rightSwipe
@@ -25,6 +27,8 @@ Window {
     signal rightSwipeReleased
     signal downSwipeReleased
     signal leftSwipeReleased
+
+    property alias menuModel: listModelMenu
 
     property int diffSwipeX1: 80
     property int diffSwipeX2: 480 - 100
@@ -61,7 +65,7 @@ Window {
 
     Rectangle{
         id: backgroundMenu
-        color: "#000000"
+        color: "#111"
         anchors { top: statusBar.bottom; left: parent.left; bottom: parent.bottom; right: windowContent.left; }
         visible: windowContent.x > 0
 
@@ -74,12 +78,39 @@ Window {
 
         ListView{
             id: listViewMenu
-            anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            delegate: SwipeListDelegate{}
-            header: TextField{
-                width: ListView.width
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: -79
+            height: listModelMenu.count * 79
+            boundsBehavior: Flickable.StopAtBounds
+            model: ListModel{id:listModelMenu}
+            delegate: SwipeListDelegate{
+                id: listDelegate
+                titleWeight: Font.Light
+                titleSize: 28
+                width: listViewMenu.width - 5
+                titleColor: "#fff"
+                clip: true
+                backgroundPressed: "image://theme/meegotouch-list-background-selected-center"
+                onClicked: {
+                    window.hideMenu();
+                    window.clicked(title, index, type);
+                }
+
+                Rectangle{
+                    anchors.top: parent.top
+                    width: parent.width
+                    height: 1
+                    color: "#2A2A2A"
+                }
+
+                Rectangle{
+                    anchors.bottom: parent.bottom
+                    width: parent.width
+                    height: 1
+                    color: "#2A2A2A"
+                }
             }
         }
     }
@@ -192,13 +223,13 @@ Window {
         }
         onPositionChanged: {
             // Para chequear left o right.
-            if(!window.isShowMenu)
+            if(!window.isShowMenu && windowContent.x == 0 && mouseX > window.diffSwipeX1)
             {
                 oldMouseX2 = mouseX;
                 oldMouseY2 = mouseY;
 
                 //console.debug("mouseX: " + mouseX);
-                windowContent.checkDirection(oldMouseX1, oldMouseY1,oldMouseX2, oldMouseY2, window.offsetSwipeX, window.offsetSwipeY);
+                windowContent.checkDirection(oldMouseX1, oldMouseY1, oldMouseX2, oldMouseY2, window.offsetSwipeX, window.offsetSwipeY);
             }
         }
         onReleased: {
