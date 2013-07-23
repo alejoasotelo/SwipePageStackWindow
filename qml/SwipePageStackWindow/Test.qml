@@ -7,7 +7,7 @@ Page {
 
     property string title : "Test"
 
-    tools: commonTools
+    //tools: commonTools
     orientationLock: PageOrientation.LockPortrait
 
     Image {
@@ -56,7 +56,9 @@ Page {
             margins: 16
         }
         model: ListModel{id: listModel}
-        delegate: ListDelegate{id: listDelegate}
+        delegate: ListDelegate{
+            id: listDelegate
+        }
     }
 
     ScrollDecorator {
@@ -78,14 +80,17 @@ Page {
         }
     }
 
-    Component.onCompleted: {
-        var i =0;
-        for(i = 0; i < 20; i++)
-            listModel.append({title: "title " + i, subtitle: "subtitle " + i});
+    onStatusChanged: {
 
+        if(status === PageStatus.Activating)
+        {
+            listModel.clear();
+            for(var i = 0; i < 20; i++)
+                listModel.append({title: "title " + i, subtitle: "subtitle " + i});
 
-        appWindow.menuModel.clear();
-        appWindow.menuModel.append({title: "Home", type:"home"});
-        appWindow.menuModel.append({title: "About", type:"about"});
+            appWindow.menuModel.clear();
+            appWindow.menuModel.append({title: "Home", type:"home", iconSource: "image://theme/icon-m-toolbar-home-white"});
+            appWindow.menuModel.append({title: "About", type:"about", iconSource: "image://theme/icon-m-toolbar-view-menu-white"});
+        }
     }
 }

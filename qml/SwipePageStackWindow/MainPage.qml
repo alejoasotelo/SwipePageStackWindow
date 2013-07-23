@@ -7,7 +7,7 @@ Page {
 
     property string title : "SwipePageStackWindow Test"
 
-    tools: commonTools
+    //tools: commonTools
     orientationLock: PageOrientation.LockPortrait
 
     Image {
@@ -72,12 +72,19 @@ Page {
     }
 
     Component.onCompleted: {
-        var i =0;
-        for(i = 0; i < 20; i++)
-            listModel.append({title: "Title " + i, subtitle: "Subtitle " + i});
+    }
 
-        appWindow.menuModel.clear();
-        appWindow.menuModel.append({title: "Test", type:"test"});
-        appWindow.menuModel.append({title: "About", type:"about"});
+    onStatusChanged: {
+
+        if(status === PageStatus.Activating)
+        {
+            listModel.clear();
+            for(var i = 0; i < 20; i++)
+                listModel.append({title: "Title " + i, subtitle: "Subtitle " + i});
+
+            appWindow.menuModel.clear();
+            appWindow.menuModel.append({title: "Test", type:"test", iconSource: "image://theme/icon-m-toolbar-add-white"});
+            appWindow.menuModel.append({title: "About", type:"about", iconSource: "image://theme/icon-m-toolbar-view-menu-white"});
+        }
     }
 }

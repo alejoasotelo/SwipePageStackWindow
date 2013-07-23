@@ -18,7 +18,7 @@ SwipePageStackWindow {
         id: mainPage
     }
 
-    ToolBarLayout {
+    /*ToolBarLayout {
         id: commonTools
 
         ToolIcon {
@@ -44,7 +44,7 @@ SwipePageStackWindow {
                 myMenu.open();
             }
         }
-    }
+    }*/
 
     QueryDialog {
         id: aboutDialog
@@ -52,7 +52,7 @@ SwipePageStackWindow {
         message: "(C) [2013] [AlejoSotelo.com.ar]\n[0.1.0]"
     }
 
-    Menu {
+    /*Menu {
         id: myMenu
         visualParent: pageStack
         MenuLayout {
@@ -68,5 +68,5 @@ SwipePageStackWindow {
                 appWindow.showToolBar = true;
             }
         }
-    }
+    }*/
 }

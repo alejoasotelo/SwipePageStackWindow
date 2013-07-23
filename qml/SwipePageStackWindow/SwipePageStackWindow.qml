@@ -50,6 +50,10 @@ Window {
     //private api
     property int __statusBarHeight: showStatusBar ? statusBar.height : 0
 
+    property string __title: ""
+    property int __index: -1
+    property string __type: ""
+
     objectName: "pageStackWindow"
 
     StatusBar {
@@ -73,6 +77,9 @@ Window {
             anchors.fill: parent
             onClicked: {
                 window.isShowMenu = false;
+                window.__title = "";
+                window.__index = -1;
+                window.__type = "";
             }
         }
 
@@ -95,7 +102,10 @@ Window {
                 backgroundPressed: "image://theme/meegotouch-list-background-selected-center"
                 onClicked: {
                     window.hideMenu();
-                    window.clicked(title, index, type);
+                    window.__title = title;
+                    window.__index = index;
+                    window.__type = type;
+                    //window.clicked(title, index, type);
                 }
 
                 Rectangle{
@@ -187,7 +197,7 @@ Window {
         anchors.bottom: parent.bottom
 
         drag{
-            target: windowContent
+            target: !pageStack.busy ? windowContent : undefined
             axis: "XAxis"
             minimumX: 0
             maximumX: window.diffSwipeX2//480*0.75
@@ -223,7 +233,7 @@ Window {
         }
         onPositionChanged: {
             // Para chequear left o right.
-            if(!window.isShowMenu && windowContent.x == 0 && mouseX > window.diffSwipeX1)
+            if(!window.isShowMenu && windowContent.x == 0 && oldMouseX1 > window.diffSwipeX1)
             {
                 oldMouseX2 = mouseX;
                 oldMouseY2 = mouseY;
@@ -325,7 +335,29 @@ Window {
         }
 
         Behavior on x{
-            NumberAnimation { duration: 150; easing.type: Easing.OutQuad }
+            SequentialAnimation{
+                NumberAnimation {
+                    duration: 150
+                    easing.type: Easing.OutQuad
+                }
+                ScriptAction{
+                    script: {
+                        /*
+                        *   Si la animacion termino y el menu esta cerrado
+                        *   es porque se hizo un click.
+                        */
+                        if(!window.isShowMenu && window.__title != "")
+                        {
+                            window.clicked(window.__title, window.__index, window.__type);
+                        }
+
+                        window.__title = "";
+                        window.__index = -1;
+                        window.__type = "";
+
+                    }
+                }
+            }
         }
     }
 
